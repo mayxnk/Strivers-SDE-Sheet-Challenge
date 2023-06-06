@@ -1,0 +1,35 @@
+ vector<vector<int>> ans;
+    void solve(int n,vector<int> prev,int rows)
+    {
+        if(n > rows)
+        return;
+
+        vector<int> curr(n);
+        curr[0] = curr[n-1] = 1;
+        int k = 0;
+        for(int i = 1;i<n-1 and k+1<prev.size();i++,k++)
+        curr[i] = prev[k] + prev[k+1];
+
+        ans.push_back(curr);
+        solve(n+1,curr,rows);
+    } 
+    vector<vector<int>> generate(int numRows)
+    {
+       ans.push_back({1});
+       if(numRows == 1)
+       return ans;
+       //solve(2,{1},numRows);
+       //Tabulation
+       vector<int> prev{1};
+       for(int i = 2;i<=numRows;i++)
+       {
+           vector<int> curr(i);
+           int k = 0;
+           curr[0] = curr[i-1] = 1;
+           for(int j = 1;j<i-1 and k+1<i;j++,k++)
+                curr[j] = prev[k] + prev[k+1];   
+            ans.push_back(curr);    
+            prev = curr;
+        }
+       return ans;
+    }
